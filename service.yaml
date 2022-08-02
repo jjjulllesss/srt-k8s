@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: srt-gw
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: srt-gw.nl.genesis.ateme.ninja
+    external-dns.alpha.kubernetes.io/ttl: "60"
+spec:
+  ports:
+  - protocol: UDP
+    port: 2000
+    targetPort: 2000
+  clusterIP: None
+  selector:
+    app: srt
