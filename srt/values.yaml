@@ -15,24 +15,17 @@ nameOverride: ""
 fullnameOverride: ""
 
 
-podAnnotations: {}
+podAnnotations:
+  cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
 
-serviceAnnotations: {}
+serviceAnnotations:
+  external-dns.alpha.kubernetes.io/hostname: "srt1.nl.genesis.ateme.ninja"
+  external-dns.alpha.kubernetes.io/ttl: "60"
 
 podSecurityContext: {}
   # fsGroup: 2000
 
 securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
-
-service:
-  type: ClusterIP
-  port: 80
 
 inboundport: 3000
 outboundport: 4000
