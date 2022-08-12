@@ -7,30 +7,40 @@ replicaCount: 1
 image:
   repository: hidesugihara/srt
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
+  # Keep the default tag
   tag: ""
 
+# No need to modify this part, image is publicly available.
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
-
+# This tag prevents the autoscaler cluster from deleting the pod.
 podAnnotations:
   cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
 
+# If you want to use external DNS, uncomment the following lines
+# This will give you the possibility to use DNS name instead of IP addresses to reach you SRT GW pod.
+# ExternalDNS needs to be installed and configured in the cluster.
 serviceAnnotations:
-  external-dns.alpha.kubernetes.io/hostname: "srt1.nl.genesis.ateme.ninja"
-  external-dns.alpha.kubernetes.io/ttl: "60"
+  # external-dns.alpha.kubernetes.io/hostname: "srt1.nl.genesis.ateme.ninja"
+  # external-dns.alpha.kubernetes.io/ttl: "60"
 
+# Don't need to be modified
 podSecurityContext: {}
   # fsGroup: 2000
 
+# Don't need to be modified
 securityContext: {}
 
+# Port on which you will receive the stream
 inboundport: 3000
+# Port on which you will send the stream
 outboundport: 4000
+# Address or IP on which you will send the stream (NEA-Live pod)
 outboundaddress: "nea-live-1.nl.genesis.ateme.ninja"
 
+# No need to setup resources
 resources: {}
   # limits:
   #   cpu: 100m
@@ -39,6 +49,7 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
+# Autoscaling is not necessary, keep it disabled.
 autoscaling:
   enabled: false
   minReplicas: 1
@@ -50,6 +61,7 @@ nodeSelector: {}
 
 tolerations: []
 
+# Affinity are required to schedule SRT pods on the same node as the NEA-Live pod.
 affinity:
   nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
